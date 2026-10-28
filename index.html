@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Spin-Out Puzzle | ひねって、ほどく。</title><meta name="description" content="木と真鍮のスピンアウト。円盤をひねり、隠れた順序を見つける知恵の輪。"><link rel="stylesheet" href="style.css"></head>
+<body>
+<header><a class="brand" href="./">SPIN / OUT <span>知恵の輪のアトリエ</span></a><button id="sound" aria-pressed="false">効果音 OFF</button></header>
+<main>
+<div class="intro"><p class="eyebrow">THE MECHANICAL PUZZLE · 01</p><h1>ひねって、<br class="mobile">ほどく。</h1><p>ひとつ動かすと、次が見えてくる。<br>凹みを合わせ、レールを通して、スライドを引き抜こう。</p></div>
+<div class="toolbar"><div class="tabs" role="group" aria-label="モード"><button id="playMode" class="active" aria-pressed="true">あそぶ</button><button id="studyMode" aria-pressed="false">探究モード</button></div><label>円盤 <select id="count" aria-label="円盤数"><option>3</option><option>4</option><option>5</option><option>6</option><option selected>7</option><option>8</option></select> 枚</label></div>
+<section class="game" aria-label="スピンアウト盤面">
+<div class="game-top"><span>BRASS & WALNUT</span><span id="level">07 DISCS</span></div>
+<div class="stats"><div><strong id="moves">0</strong><span>手数</span></div></div>
+<p class="gesture-tip">① 持ち手をドラッグ　② 丸い窓に合わせて円盤をタップ　③ 台を左へ引き抜く</p>
+<div class="board-scroll"><div id="canvas" class="board-canvas"><svg id="mechanism" class="mechanism" role="group" aria-label="円盤とケースの機構。持ち手を左右にドラッグしてスライド">
+<defs><linearGradient id="brass" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f9d791"/><stop offset=".5" stop-color="#b58a48"/><stop offset="1" stop-color="#ead0a0"/></linearGradient><linearGradient id="steel" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#b1bdb3"/><stop offset="1" stop-color="#4c5f53"/></linearGradient><pattern id="wood" width="35" height="8" patternUnits="userSpaceOnUse"><rect width="35" height="8" fill="#674a33"/><path d="M 0 3 H 35 M 6 6 H 28" stroke="#94704b" stroke-width=".6"/></pattern></defs>
+<rect id="case-base" x="0" y="-90" height="180" rx="8" fill="url(#wood)"/>
+<g id="slide"><rect id="carrier" x="-126" y="-24" height="48" rx="4" fill="#d7cbaa" stroke="#8a7b5b"/>
+<g id="discs"></g>
+<g id="handle" role="slider" tabindex="0" aria-label="スライドの持ち手。左右にドラッグ。または左右矢印キー" aria-orientation="horizontal"><rect x="-124" y="-22" width="66" height="44" rx="8"/><path d="M -112 -9 V 9 M -104 -9 V 9 M -96 -9 V 9"/><text x="-76" y="5" text-anchor="middle" class="handle-arrow">↔</text></g></g>
+<path id="rail-top" class="rail-part" fill="url(#steel)"/><path id="rail-bottom" class="rail-part" fill="url(#steel)"/><path id="rail-end" class="rail-part" fill="url(#steel)"/>
+<text x="170" y="-103" text-anchor="middle" class="part-label">回転窓</text><path d="M 170 -97 V -59" class="annotation"/>
+<text x="77" y="110" text-anchor="middle" class="part-label">ストッパー</text><path d="M 77 99 L 97 39" class="annotation"/>
+<g id="clearScene" visibility="hidden" aria-hidden="true"><path d="M 0 -88 V 88" class="exit-line"/><text id="caseEmpty" y="5" text-anchor="middle" class="empty-label">台が抜けたケース</text></g><g id="labels"></g><g id="guide"></g><g id="contact" aria-hidden="true"></g>
+</svg><div id="handleControls" class="handle-controls" role="group" aria-label="持ち手のスライド操作"><button id="slideOut" aria-label="台を左へ1目盛" title="台を左へ1目盛">←</button><button id="slideIn" aria-label="台を右へ1目盛" title="台を右へ1目盛">→</button></div></div></div>
+<p id="position" class="position-label" role="status"></p>
+<div class="rotation-controls"><span id="selected">選択：円盤1</span><button id="rotateLeft">↶ 90°</button><button id="rotateRight">↷ 90°</button><small>凸部の向きを試せます。引っかかった場所は×印で表示。</small></div>
+<div id="message" role="status" aria-live="polite">円盤をタップして90°回転。まずは右側から試してみよう。</div>
+<div class="actions"><button id="undo">↶ 戻す</button><button id="reset">最初から</button><button id="hint">ひとつヒント</button><button id="auto" class="primary">▶ 手本を再生</button></div>
+<div class="speed"><label for="speed">再生速度</label><input id="speed" type="range" min="450" max="1800" step="50" value="1000"><output id="speedValue">1.0 秒 / 操作</output></div>
+</section>
+<div id="clearBanner" class="clear-banner" hidden><div class="clear-card" role="status" aria-live="polite"><span class="clear-star" aria-hidden="true">✦</span><h2>クリア！</h2><p id="clearResult"></p><button id="clearRestart" class="primary">最初から</button><button id="clearClose">盤面を見る</button></div></div>
+<details class="instructions"><summary>機構と、手本について</summary><p>円盤は台に固定された軸で回ります。上の丸い切り欠きに中心を合わせると回転用の空間が生まれます。横の円盤の凸部や先頭円盤の直線辺が邪魔をすることもあります。下のストッパーを通すには凸部を横へ向けます。赤い×は実際の接触位置です。</p><p>円盤は左から1、2…と数えます。円盤をタップすると通常の縦・横を往復します。↶／↷は直前にタップした円盤を回します（タップ自体も回転操作です）。反対向きやケース外の回転も試せます。台は持ち手または中央の板をドラッグ。狭い画面は盤面の余白を横スクロールできます。ドラッグを離すと、障害物を越えずに最寄りの整数目盛へ止まります。持ち手の上の矢印ボタンは1回につき1目盛です。</p><p>「手数」は円盤1枚の90度回転を数え、スライドは含めません。Undoはスライドも戻します。ヒントと手本は4方向の円盤と、円盤間隔ごとのスライド位置を探索します。ヒントの残り回転数は現在の状態からの探索結果で、クリア後は0回です。連続する全スライド位置や実製品の最短性を保証する値ではありません。ケース外の半回転は90度2回として数えます。探索上限に達したときは明記して正規手本へ切り替えます。</p><p>構造は<a href="https://patents.google.com/patent/US3637215A/en" target="_blank" rel="noopener">Keisterの特許 Fig.1〜4</a>を参照。寸法は共通半径で正規化した2Dモデルです。製品の厚み・摩擦・遊びは再現していません。衝突は描画と共通の円弧を細分して検査します。</p></details>
+<section id="study" hidden><p class="eyebrow">PATTERNS BEHIND THE PUZZLE</p><h2>動きの向こうに、規則を探そう。</h2><p>正規の2向きでは、凸部が下を1、右を0と表します。左から円盤1 … 円盤nの順です。上・左も使った場合は向きの名前を表示します。</p><div id="binary" class="binary"></div><div class="study-grid"><article><h3>枚数と正規手本の回転数</h3><table><thead><tr><th>円盤数</th><th>回転数</th></tr></thead><tbody id="lengths"></tbody></table></article><article><h3>考えてみよう</h3><p>円盤を1枚増やすと、手数は何倍に近づく？</p><p>いちばん左を回す直前、右側はどう並ぶ？</p><details><summary>グレイコードとのつながり</summary><p>隣同士が1ビットだけ異なる並びがグレイコードです。スライドの位置を省き、下・右の正規2向きだけに制限すると、反射型二進グレイコードの道になります。単に1ビットが違うだけでは合法とは限りません。</p><p>参考：正規2向き解法の回転数 Lₙ = Lₙ₋₁ + 2Lₙ₋₂ + 1（L₁=1、L₂=2）。一般式は ⌊2ⁿ⁺¹/3⌋。7枚は全て下→全て右の85回です。スライド位置と4方向を含む全機構の最短回数ではありません。</p></details></article></div><h3>状態の記録 <small>（新しい操作が上）</small></h3><ol id="history"></ol></section>
+<footer>SPIN / OUT <span>急がず、ひと回しずつ。</span></footer>
+</main><script src="./engine.js"></script><script src="./mechanics.js"></script><script src="./app.js"></script><script src="./access-counter.js"></script></body></html>
